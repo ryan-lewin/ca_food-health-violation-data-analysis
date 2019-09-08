@@ -1,2 +1,5 @@
 #Ignore xlsx data files
 *.xlsx
+
+#Ignore db files
+*.db
