@@ -8,10 +8,13 @@ inspections = wb1['inspections']
 violations = wb2['violations']
 
 connection = sqlite3.connect('inspection_violations.db')
-cursor = connection.cursor()
+cursor = connection.cursor()    
+
+drop_inspections = 'DROP TABLE IF EXISTS inspections';
+drop_violations = 'DROP TABLE IF EXISTS violations';
 
 create_inspections_table = """
-                        CREATE TABLE IF NOT EXISTS inspections(
+                        CREATE TABLE inspections(
                         activity_date DATE,
                         employee_id VARCHAR(20),
                         facility_address VARCHAR(50),
@@ -36,7 +39,7 @@ create_inspections_table = """
                         );"""
 
 create_violations_table = """
-                        CREATE TABLE IF NOT EXISTS violations(
+                        CREATE TABLE violations(
                         id INTEGER PRIMARY KEY AUTOINCREMENT,
                         points VARCHAR(2),
                         serial_number VARCHAR(10),
@@ -45,7 +48,8 @@ create_violations_table = """
                         violation_status VARCHAR(30),
                         FOREIGN KEY (serial_number) REFERENCES inspections(serial_number)
                         );"""
-
+cursor.execute(drop_inspections)
+cursor.execute(drop_violations)
 cursor.execute(create_inspections_table)
 cursor.execute(create_violations_table)
 
